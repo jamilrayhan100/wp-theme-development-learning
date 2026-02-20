@@ -1,5 +1,5 @@
 
-# WP_Query
+# WP_Query for category from post
 
 ```php
 
