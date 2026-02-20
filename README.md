@@ -1,6 +1,21 @@
 
 ```php
 
+// WP_Query arguments
+  $args = array(
+      'post_type'              => array('post'),
+      'post_status'            => array('publish'), 
+      'posts_per_page'         => '3', 
+      'order'                  => 'DESC',
+      'orderby'                => 'date',				
+    
+  );
+  // The Query
+  $query = new WP_Query($args);
+
+
+
+// WP_Query code with loop 
 <?php if(!empty($categorie)) : 
     $limited_categories = array_slice($categorie, 0, 2);		
     $has_second = count( $limited_categories ) > 1;								
