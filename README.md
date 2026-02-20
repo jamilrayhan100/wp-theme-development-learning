@@ -38,17 +38,33 @@ function kindaid_all_post($post_type_name = 'post'){
 
 
 
-// WP_Query arguments
-  $args = array(
-      'post_type'              => array('post'),
-      'post_status'            => array('publish'), 
-      'posts_per_page'         => '3', 
-      'order'                  => 'DESC',
-      'orderby'                => 'date',				
-    
-  );
-  // The Query
-  $query = new WP_Query($args);
+		$paged = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
+  
+  // WP_Query arguments
+    $args = array(
+        'post_type'              => array('post'),
+        'post_status'            => array('publish'), 
+        'posts_per_page'         => $settings['post-number'],
+        'order'                  => $settings['post-order'],
+        'post__in'                => $settings['post-in'],				
+        'post__not_in'                => $settings['post-not-in'],	
+        'paged'          => $paged,			
+      
+    );
+    if(!empty($settings['post-cat'])){
+      $args['tax_query'] = array(
+        array(
+          'taxonomy'         => 'category', // taxonomy slug
+          'terms'            => $settings['post-cat'], // term slug
+          'field'            => 'slug', // Also support: slug, name, term_taxonomy_id
+          'operator'         => 'IN', // Also support: AND, NOT IN, EXISTS, NOT EXISTS
+          'include_children' => true,
+        ),
+      );
+    }
+    // The Query
+    $query = new WP_Query($args);
+
 
 
 
